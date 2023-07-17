@@ -19,17 +19,20 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String uuid;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
-    @Column(columnDefinition = "ENUM('RUC', 'DNI')")
+    @Column(columnDefinition = "ENUM('RUC', 'DNI')", nullable = false)
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
+    @Column(nullable = false)
     private String documentNumber;
 
     @Transient

@@ -1,6 +1,7 @@
 package com.ibk.customers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibk.customers.dto.CreateCustomerRequest;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
 import com.ibk.customers.enums.DocumentType;
@@ -80,7 +81,7 @@ public class CustomerControllerTest {
                 .documentNumber("12345678")
                 .build();
 
-        given(customerService.createCustomer(any(Customer.class)))
+        given(customerService.createCustomer(any(CreateCustomerRequest.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         // When

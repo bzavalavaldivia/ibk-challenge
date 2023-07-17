@@ -1,5 +1,6 @@
 package com.ibk.customers.controller;
 
+import com.ibk.customers.dto.CreateCustomerRequest;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
+    public Customer createCustomer(@RequestBody @Valid CreateCustomerRequest customer) {
         return customerService.createCustomer(customer);
     }
 
