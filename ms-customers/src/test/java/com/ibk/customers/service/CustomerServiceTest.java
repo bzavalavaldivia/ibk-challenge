@@ -1,5 +1,9 @@
 package com.ibk.customers.service;
 
+import com.ibk.customers.entity.Customer;
+import com.ibk.customers.entity.Product;
+import com.ibk.customers.repository.CustomerRepository;
+import com.ibk.customers.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +27,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     @Mock
     private CustomerRepository customerRepository;
@@ -32,7 +36,7 @@ public class CustomerServiceTest {
         add(Product
                 .builder()
                 .id(1L)
-                .customerId(1L)
+                .customerId("123")
                 .type("CUENTA_AHORROS")
                 .name("Cuenta de Ahorros")
                 .balance(1000000.0)
@@ -40,7 +44,7 @@ public class CustomerServiceTest {
         add(Product
                 .builder()
                 .id(2L)
-                .customerId(1L)
+                .customerId("123")
                 .type("CUENTA_CORRIENTE")
                 .name("Cuenta Corriente")
                 .balance(500000.0)
@@ -48,7 +52,7 @@ public class CustomerServiceTest {
         add(Product
                 .builder()
                 .id(3L)
-                .customerId(1L)
+                .customerId("123")
                 .type("TARJETA_CREDITO_AMEX")
                 .name("Tarjeta de Crédito AMEX")
                 .balance(1000000.0)
@@ -212,7 +216,7 @@ public class CustomerServiceTest {
         Customer customer = Customer
                 .builder()
                 .id(1L)
-                .uuid("uuid")
+                .uuid("123")
                 .firstName("John")
                 .lastName("Doe")
                 .documentType("CC")
@@ -233,6 +237,7 @@ public class CustomerServiceTest {
                 () -> assertEquals(customer.getLastName(), returnedCustomer.getLastName()),
                 () -> assertEquals(customer.getDocumentType(), returnedCustomer.getDocumentType()),
                 () -> assertEquals(customer.getDocumentNumber(), returnedCustomer.getDocumentNumber()),
+                () -> assertEquals(customer.getProducts().get(0).getCustomerId(), returnedCustomer.getUuid()),
                 () -> assertEquals(customer.getProducts().size(), returnedCustomer.getProducts().size()),
                 () -> assertEquals(customer.getProducts().get(0).getType(), returnedCustomer.getProducts().get(0).getType()),
                 () -> assertEquals(customer.getProducts().get(0).getName(), returnedCustomer.getProducts().get(0).getName()),

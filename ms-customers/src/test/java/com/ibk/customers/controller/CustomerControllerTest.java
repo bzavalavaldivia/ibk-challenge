@@ -1,6 +1,9 @@
 package com.ibk.customers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibk.customers.entity.Customer;
+import com.ibk.customers.entity.Product;
+import com.ibk.customers.service.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,7 @@ public class CustomerControllerTest {
         add(Product
                 .builder()
                 .id(1L)
-                .customerId(1L)
+                .customerId("123")
                 .type("CUENTA_AHORROS")
                 .name("Cuenta de Ahorros")
                 .balance(1000000.0)
@@ -47,7 +50,7 @@ public class CustomerControllerTest {
         add(Product
                 .builder()
                 .id(2L)
-                .customerId(1L)
+                .customerId("123")
                 .type("CUENTA_CORRIENTE")
                 .name("Cuenta Corriente")
                 .balance(500000.0)
@@ -55,7 +58,7 @@ public class CustomerControllerTest {
         add(Product
                 .builder()
                 .id(3L)
-                .customerId(1L)
+                .customerId("123")
                 .type("TARJETA_CREDITO_AMEX")
                 .name("Tarjeta de Crédito AMEX")
                 .balance(1000000.0)
@@ -167,7 +170,7 @@ public class CustomerControllerTest {
         Customer customer = Customer
                 .builder()
                 .id(1L)
-                .uuid("1234567890")
+                .uuid("123")
                 .firstName("John")
                 .lastName("Doe")
                 .documentType("CC")
@@ -189,7 +192,8 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastName").value(customer.getLastName()))
                 .andExpect(jsonPath("$.documentType").value(customer.getDocumentType()))
                 .andExpect(jsonPath("$.documentNumber").value(customer.getDocumentNumber()))
-                .andExpect(jsonPath("$.products.size()").value(customer.getProducts().size()));
+                .andExpect(jsonPath("$.products.size()").value(customer.getProducts().size()))
+                .andExpect(jsonPath("$.products[0].customerId").value(customer.getUuid()));
     }
 
     @Test
