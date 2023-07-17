@@ -3,6 +3,7 @@ package com.ibk.customers.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
+import com.ibk.customers.enums.DocumentType;
 import com.ibk.customers.service.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,8 +76,8 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerService.createCustomer(any(Customer.class)))
@@ -104,9 +105,9 @@ public class CustomerControllerTest {
     void getAllCustomers() throws Exception {
         // Given
         List<Customer> customers = new ArrayList<Customer>();
-        customers.add(Customer.builder().id(1L).uuid("1234567890").firstName("John").lastName("Doe").documentType("CC").documentNumber("1234567890").build());
-        customers.add(Customer.builder().id(2L).uuid("0987654321").firstName("Jane").lastName("Doe").documentType("CC").documentNumber("0987654321").build());
-        customers.add(Customer.builder().id(3L).uuid("1234509876").firstName("John").lastName("Smith").documentType("CC").documentNumber("1234509876").build());
+        customers.add(Customer.builder().id(1L).uuid("1234567890").firstName("John").lastName("Doe").documentType(DocumentType.DNI).documentNumber("12345678").build());
+        customers.add(Customer.builder().id(2L).uuid("0987654321").firstName("Jane").lastName("Doe").documentType(DocumentType.DNI).documentNumber("87654321").build());
+        customers.add(Customer.builder().id(3L).uuid("1234509876").firstName("John").lastName("Smith").documentType(DocumentType.RUC).documentNumber("12345678901").build());
 
         given(customerService.getAllCustomers()).willReturn(customers);
 
@@ -129,8 +130,8 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerService.getCustomerById(any(Long.class))).willReturn(Optional.of(customer));
@@ -173,8 +174,8 @@ public class CustomerControllerTest {
                 .uuid("123")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .products(products)
                 .build();
 
@@ -206,8 +207,8 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.RUC)
+                .documentNumber("12345678901")
                 .build();
 
         Customer customerUpdated = Customer
@@ -216,7 +217,7 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("DNI")
+                .documentType(DocumentType.DNI)
                 .documentNumber("12345678")
                 .build();
 
@@ -249,8 +250,8 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.RUC)
+                .documentNumber("12345678901")
                 .build();
 
         given(customerService.getCustomerById(1L)).willReturn(Optional.empty());
@@ -275,8 +276,8 @@ public class CustomerControllerTest {
                 .uuid("1234567890")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("1234567890")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerService.getCustomerById(1L)).willReturn(Optional.of(customer));

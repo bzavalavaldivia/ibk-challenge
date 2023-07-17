@@ -1,5 +1,6 @@
 package com.ibk.customers.entity;
 
+import com.ibk.customers.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,9 @@ public class Customer {
 
     private String lastName;
 
-    private String documentType;
+    @Column(columnDefinition = "ENUM('RUC', 'DNI')")
+    @Enumerated(EnumType.STRING)
+    private DocumentType documentType;
 
     private String documentNumber;
 

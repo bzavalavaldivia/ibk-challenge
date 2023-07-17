@@ -2,6 +2,7 @@ package com.ibk.customers.service;
 
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
+import com.ibk.customers.enums.DocumentType;
 import com.ibk.customers.repository.CustomerRepository;
 import com.ibk.customers.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,8 +75,8 @@ public class CustomerServiceTest {
                 .uuid("uuid")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerRepository.save(any(Customer.class))).willReturn(customer);
@@ -105,8 +106,8 @@ public class CustomerServiceTest {
                 .uuid("uuid")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build());
 
         given(customerRepository.findAll()).willReturn(customers);
@@ -136,8 +137,8 @@ public class CustomerServiceTest {
                 .uuid("uuid")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerRepository.findById(any(Long.class))).willReturn(java.util.Optional.of(customer));
@@ -166,8 +167,8 @@ public class CustomerServiceTest {
                 .uuid("uuid")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         given(customerRepository.save(any(Customer.class))).willReturn(customer);
@@ -196,8 +197,8 @@ public class CustomerServiceTest {
                 .uuid("uuid")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .build();
 
         willDoNothing().given(customerRepository).deleteById(any(Long.class));
@@ -219,8 +220,8 @@ public class CustomerServiceTest {
                 .uuid("123")
                 .firstName("John")
                 .lastName("Doe")
-                .documentType("CC")
-                .documentNumber("123456789")
+                .documentType(DocumentType.DNI)
+                .documentNumber("12345678")
                 .products(products)
                 .build();
 
