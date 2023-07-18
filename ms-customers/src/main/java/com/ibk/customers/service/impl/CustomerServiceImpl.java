@@ -6,6 +6,7 @@ import com.ibk.customers.repository.CustomerRepository;
 import com.ibk.customers.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,33 +17,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private final List<Product> products = new ArrayList<>() {{
-
-        add(Product
-                .builder()
-                .id(1L)
-                .customerId("123")
-                .type("CUENTA_AHORROS")
-                .name("Cuenta de Ahorros")
-                .balance(1000000.0)
-                .build());
-        add(Product
-                .builder()
-                .id(2L)
-                .customerId("123")
-                .type("CUENTA_CORRIENTE")
-                .name("Cuenta Corriente")
-                .balance(500000.0)
-                .build());
-        add(Product
-                .builder()
-                .id(3L)
-                .customerId("123")
-                .type("TARJETA_CREDITO_AMEX")
-                .name("Tarjeta de Crédito AMEX")
-                .balance(1000000.0)
-                .build());
-    }};
+    @Autowired
+    private RestTemplate restTemplate;
 
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
@@ -65,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Optional<Customer> getProductsByCustomerUuid(String uuid) {
+        List<Product> products = restTemplate.getForObject("http://ms-products/api/v1/products/customer/" + uuid, List.class);
         Optional<Customer> customer = customerRepository.findByUuid(uuid);
         return customer.map(c -> {
             c.setProducts(products);
