@@ -29,6 +29,6 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(10,2), default 0.0")
+    @Column(nullable = false, columnDefinition = "FLOAT(10,2) default 0")
     private Double balance;
 }

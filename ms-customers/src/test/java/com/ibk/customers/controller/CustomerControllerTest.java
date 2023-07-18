@@ -1,7 +1,6 @@
 package com.ibk.customers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibk.customers.dto.CreateCustomerRequest;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
 import com.ibk.customers.enums.DocumentType;
@@ -81,7 +80,7 @@ public class CustomerControllerTest {
                 .documentNumber("12345678")
                 .build();
 
-        given(customerService.createCustomer(any(CreateCustomerRequest.class)))
+        given(customerService.createCustomer(any(Customer.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         // When
@@ -96,7 +95,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.uuid").value(customer.getUuid()))
                 .andExpect(jsonPath("$.firstName").value(customer.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(customer.getLastName()))
-                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType()))
+                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType().name()))
                 .andExpect(jsonPath("$.documentNumber").value(customer.getDocumentNumber()))
         ;
     }
@@ -147,7 +146,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.uuid").value(customer.getUuid()))
                 .andExpect(jsonPath("$.firstName").value(customer.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(customer.getLastName()))
-                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType()))
+                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType().name()))
                 .andExpect(jsonPath("$.documentNumber").value(customer.getDocumentNumber()));
     }
 
@@ -192,7 +191,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.uuid").value(customer.getUuid()))
                 .andExpect(jsonPath("$.firstName").value(customer.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(customer.getLastName()))
-                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType()))
+                .andExpect(jsonPath("$.documentType").value(customer.getDocumentType().name()))
                 .andExpect(jsonPath("$.documentNumber").value(customer.getDocumentNumber()))
                 .andExpect(jsonPath("$.products.size()").value(customer.getProducts().size()))
                 .andExpect(jsonPath("$.products[0].customerId").value(customer.getUuid()));
@@ -237,7 +236,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.uuid").value(customerUpdated.getUuid()))
                 .andExpect(jsonPath("$.firstName").value(customerUpdated.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(customerUpdated.getLastName()))
-                .andExpect(jsonPath("$.documentType").value(customerUpdated.getDocumentType()))
+                .andExpect(jsonPath("$.documentType").value(customerUpdated.getDocumentType().name()))
                 .andExpect(jsonPath("$.documentNumber").value(customerUpdated.getDocumentNumber()));
     }
 

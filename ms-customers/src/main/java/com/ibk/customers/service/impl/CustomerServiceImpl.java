@@ -1,9 +1,7 @@
 package com.ibk.customers.service.impl;
 
-import com.ibk.customers.dto.CreateCustomerRequest;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
-import com.ibk.customers.mapper.CustomerMapper;
 import com.ibk.customers.repository.CustomerRepository;
 import com.ibk.customers.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,6 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private CustomerMapper mapper;
 
     private final List<Product> products = new ArrayList<>() {{
 
@@ -49,8 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .build());
     }};
 
-    public Customer createCustomer(CreateCustomerRequest customerRequest) {
-        Customer customer = this.mapper.toCustomer(customerRequest);
+    public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 

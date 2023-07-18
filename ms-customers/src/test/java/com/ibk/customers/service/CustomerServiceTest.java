@@ -1,10 +1,8 @@
 package com.ibk.customers.service;
 
-import com.ibk.customers.dto.CreateCustomerRequest;
 import com.ibk.customers.entity.Customer;
 import com.ibk.customers.entity.Product;
 import com.ibk.customers.enums.DocumentType;
-import com.ibk.customers.mapper.CustomerMapper;
 import com.ibk.customers.repository.CustomerRepository;
 import com.ibk.customers.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,9 +34,6 @@ public class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private CustomerMapper customerMapper;
 
     private final List<Product> products = new ArrayList<>() {{
         add(Product
@@ -87,12 +81,10 @@ public class CustomerServiceTest {
                 .documentNumber("12345678")
                 .build();
 
-        CreateCustomerRequest customerRequest = customerMapper.toCreateCustomerRequest(customer);
-
         given(customerRepository.save(any(Customer.class))).willReturn(customer);
 
         // When
-        Customer savedCustomer = customerService.createCustomer(customerRequest);
+        Customer savedCustomer = customerService.createCustomer(customer);
 
         // Then
         assertAll("Create Customer",
