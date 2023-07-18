@@ -1,0 +1,13 @@
+
+server:
+  port: 8080
+spring:
+  application:
+    name: ms-config-server
+  cloud:
+    config:
+      server:
+        git:
+          default-label: master
+          uri: https://github.com/bzavalavaldivia/ibk-challenge
+          search-paths: config-data
