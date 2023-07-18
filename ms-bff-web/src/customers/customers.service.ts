@@ -12,8 +12,26 @@ import { Encrypter } from 'src/utils/encrypter.util';
 export class CustomersService {
   public constructor(private readonly http: HttpService) {}
 
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  public async createCustomer(
+    createCustomerDto: CreateCustomerDto,
+    userId: string,
+  ) {
+    const customer: Customer = {
+      uuid: userId,
+      firstName: createCustomerDto.firstName,
+      lastName: createCustomerDto.lastName,
+      documentType: createCustomerDto.documentType,
+      documentNumber: createCustomerDto.documentNumber,
+    };
+
+    const res = await firstValueFrom(
+      this.http.post<Customer>(
+        'http://localhost:8081/api/v1/customers',
+        customer,
+      ),
+    );
+
+    return await CustomerMapper.toDto(res.data);
   }
 
   public async findAllCustomers(): Promise<CustomerDto[]> {

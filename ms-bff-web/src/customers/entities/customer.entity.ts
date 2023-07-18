@@ -2,7 +2,7 @@ import { DocumentType } from '../enums/document-type.enum';
 import { Product } from './product.entity';
 
 export class Customer {
-  public id: number;
+  public id?: number;
 
   public uuid: string;
 

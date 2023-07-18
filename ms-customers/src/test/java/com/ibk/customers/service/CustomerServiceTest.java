@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private RestTemplate restTemplate;
 
     private final List<Product> products = new ArrayList<>() {{
         add(Product
@@ -227,6 +231,7 @@ public class CustomerServiceTest {
                 .products(products)
                 .build();
 
+        given(restTemplate.getForObject(any(String.class), any(Class.class))).willReturn(products);
         given(customerRepository.findByUuid(any(String.class))).willReturn(Optional.of(customer));
 
         // When
