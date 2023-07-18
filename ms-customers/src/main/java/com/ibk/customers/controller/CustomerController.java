@@ -21,6 +21,10 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Customer createCustomer(@RequestBody @Valid Customer customer) {
+        customerService.getCustomerByUuid(customer.getUuid())
+                .ifPresent(c -> {
+                    throw new IllegalArgumentException("Customer already exists");
+                });
         return customerService.createCustomer(customer);
     }
 

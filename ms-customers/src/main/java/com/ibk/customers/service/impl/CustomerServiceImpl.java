@@ -32,6 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id);
     }
 
+    public Optional<Customer> getCustomerByUuid(String uuid) {
+        return customerRepository.findByUuid(uuid);
+    }
+
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }

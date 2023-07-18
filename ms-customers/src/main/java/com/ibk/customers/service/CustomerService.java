@@ -12,6 +12,8 @@ public interface CustomerService {
 
     Optional<Customer> getCustomerById(Long id);
 
+Optional<Customer> getCustomerByUuid(String uuid);
+
     Customer updateCustomer(Customer customer);
 
     void deleteCustomer(Long id);
