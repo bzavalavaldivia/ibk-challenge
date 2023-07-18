@@ -1,0 +1,115 @@
+openapi: 3.0.0
+paths:
+  /api/v1/customers:
+    post:
+      operationId: CustomersController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerDto'
+      responses:
+        '201':
+          description: ''
+    get:
+      operationId: CustomersController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /api/v1/customers/{id}:
+    get:
+      operationId: CustomersController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+  /auth/register:
+    post:
+      operationId: AuthController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestDto'
+      responses:
+        '201':
+          description: ''
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        '201':
+          description: ''
+info:
+  title: Customers API
+  description: Customers API
+  version: '1.0'
+  contact: {}
+tags:
+  - name: customers
+    description: ''
+servers: []
+components:
+  schemas:
+    CreateCustomerDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        documentType:
+          type: string
+          enum:
+            - RUC
+            - DNI
+        documentNumber:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - documentType
+        - documentNumber
+    RegisterRequestDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum:
+            - ROLE_ADMIN
+            - ROLE_USER
+      required:
+        - username
+        - password
+        - role
+    LoginRequestDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
