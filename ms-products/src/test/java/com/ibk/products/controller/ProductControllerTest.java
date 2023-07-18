@@ -2,7 +2,9 @@ package com.ibk.products.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.math.stat.descriptive.summary.Product;
+import com.ibk.products.entity.Product;
+import com.ibk.products.enums.ProductType;
+import com.ibk.products.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductcService productService;
+    private ProductService productService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -45,7 +47,7 @@ public class ProductControllerTest {
                 .builder()
                 .id(1L)
                 .customerId("123")
-                .type("CUENTA_AHORROS")
+                .type(ProductType.CUENTA_AHORROS)
                 .name("Cuenta de Ahorros")
                 .balance(1000000.0)
                 .build();
@@ -63,7 +65,7 @@ public class ProductControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(product.getId()))
                 .andExpect(jsonPath("$.customerId").value(product.getCustomerId()))
-                .andExpect(jsonPath("$.type").value(product.getType()))
+                .andExpect(jsonPath("$.type").value(product.getType().name()))
                 .andExpect(jsonPath("$.name").value(product.getName()))
                 .andExpect(jsonPath("$.balance").value(product.getBalance()));
     }
@@ -73,8 +75,8 @@ public class ProductControllerTest {
     void getAllProducts() throws Exception {
         // Given
         List<Product> products = new ArrayList<>();
-        products.add(Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build());
-        products.add(Product.builder().id(2L).customerId("123").type("CUENTA_CORRIENTE").name("Cuenta Corriente").balance(500000.0).build());
+        products.add(Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build());
+        products.add(Product.builder().id(2L).customerId("123").type(ProductType.CUENTA_CORRIENTE).name("Cuenta Corriente").balance(500000.0).build());
 
         given(productService.getAllProducts()).willReturn(products);
 
@@ -89,7 +91,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.size()").value(products.size()))
                 .andExpect(jsonPath("$[0].id").value(products.get(0).getId()))
                 .andExpect(jsonPath("$[0].customerId").value(products.get(0).getCustomerId()))
-                .andExpect(jsonPath("$[0].type").value(products.get(0).getType()))
+                .andExpect(jsonPath("$[0].type").value(products.get(0).getType().name()))
                 .andExpect(jsonPath("$[0].name").value(products.get(0).getName()))
                 .andExpect(jsonPath("$[0].balance").value(products.get(0).getBalance()));
     }
@@ -99,8 +101,8 @@ public class ProductControllerTest {
     void getAllProductsByCustomerId() throws Exception {
         // Given
         List<Product> products = new ArrayList<>();
-        products.add(Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build());
-        products.add(Product.builder().id(2L).customerId("123").type("CUENTA_CORRIENTE").name("Cuenta Corriente").balance(500000.0).build());
+        products.add(Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build());
+        products.add(Product.builder().id(2L).customerId("123").type(ProductType.CUENTA_CORRIENTE).name("Cuenta Corriente").balance(500000.0).build());
 
         given(productService.getAllProductsByCustomerId(any(String.class))).willReturn(products);
 
@@ -115,7 +117,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.size()").value(products.size()))
                 .andExpect(jsonPath("$[0].id").value(products.get(0).getId()))
                 .andExpect(jsonPath("$[0].customerId").value(products.get(0).getCustomerId()))
-                .andExpect(jsonPath("$[0].type").value(products.get(0).getType()))
+                .andExpect(jsonPath("$[0].type").value(products.get(0).getType().name()))
                 .andExpect(jsonPath("$[0].name").value(products.get(0).getName()))
                 .andExpect(jsonPath("$[0].balance").value(products.get(0).getBalance()));
     }
@@ -124,7 +126,7 @@ public class ProductControllerTest {
     @DisplayName("Test to get a product by id")
     void getProductById() throws Exception {
         // Given
-        Product product = Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productService.getProductById(any(Long.class))).willReturn(Optional.of(product));
 
@@ -137,7 +139,7 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(product.getId()))
                 .andExpect(jsonPath("$.customerId").value(product.getCustomerId()))
-                .andExpect(jsonPath("$.type").value(product.getType()))
+                .andExpect(jsonPath("$.type").value(product.getType().name()))
                 .andExpect(jsonPath("$.name").value(product.getName()))
                 .andExpect(jsonPath("$.balance").value(product.getBalance()));
     }
@@ -163,10 +165,10 @@ public class ProductControllerTest {
     @DisplayName("Test to update a product")
     void updateProduct() throws Exception {
         // Given
-        Product product = Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productService.getProductById(any(Long.class))).willReturn(Optional.of(product));
-        given(productService.updateProduct(any(Long.class), any(Product.class))).willReturn(Optional.of(product));
+        given(productService.updateProduct(any(Product.class))).willAnswer((invocation) -> invocation.getArgument(0));
 
         // When
         ResultActions result = mockMvc.perform(put("/api/v1/products/{id}", product.getId())
@@ -178,7 +180,7 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(product.getId()))
                 .andExpect(jsonPath("$.customerId").value(product.getCustomerId()))
-                .andExpect(jsonPath("$.type").value(product.getType()))
+                .andExpect(jsonPath("$.type").value(product.getType().name()))
                 .andExpect(jsonPath("$.name").value(product.getName()))
                 .andExpect(jsonPath("$.balance").value(product.getBalance()));
     }
@@ -188,7 +190,7 @@ public class ProductControllerTest {
     void updateProductNotFound() throws Exception {
         // Given
         Long id = 1L;
-        Product product = Product.builder().id(id).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(id).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productService.getProductById(any(Long.class))).willReturn(Optional.empty());
 
@@ -207,7 +209,7 @@ public class ProductControllerTest {
     void deleteProduct() throws Exception {
         // Given
         Long id = 1L;
-        Product product = Product.builder().id(id).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(id).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productService.getProductById(any(Long.class))).willReturn(Optional.of(product));
 

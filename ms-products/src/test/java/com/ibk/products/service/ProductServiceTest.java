@@ -1,6 +1,9 @@
 package com.ibk.products.service;
 
-import org.apache.commons.math.stat.descriptive.summary.Product;
+import com.ibk.products.entity.Product;
+import com.ibk.products.enums.ProductType;
+import com.ibk.products.repository.ProductRepository;
+import com.ibk.products.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +26,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @Mock
     private ProductRepository productRepository;
@@ -41,7 +44,7 @@ public class ProductServiceTest {
                 .builder()
                 .id(1L)
                 .customerId("123")
-                .type("CUENTA_AHORROS")
+                .type(ProductType.CUENTA_AHORROS)
                 .name("Cuenta de Ahorros")
                 .balance(1000000.0)
                 .build();
@@ -54,10 +57,10 @@ public class ProductServiceTest {
         // Then
         assertAll("Create Product",
                 () -> assertNotNull(storedProduct),
-                () -> assertEquals("123", storedProduct.getCustomerId()),
-                () -> assertEquals("CUENTA_AHORROS", storedProduct.getType()),
-                () -> assertEquals("Cuenta de Ahorros", storedProduct.getName()),
-                () -> assertEquals(1000000.0, storedProduct.getBalance())
+                () -> assertEquals(product.getCustomerId(), storedProduct.getCustomerId()),
+                () -> assertEquals(product.getType(), storedProduct.getType()),
+                () -> assertEquals(product.getName(), storedProduct.getName()),
+                () -> assertEquals(product.getBalance(), storedProduct.getBalance())
         );
     }
 
@@ -66,8 +69,8 @@ public class ProductServiceTest {
     public void getAllProducts() {
         // Given
         List<Product> products = new ArrayList<>();
-        products.add(Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build());
-        products.add(Product.builder().id(2L).customerId("123").type("CUENTA_CORRIENTE").name("Cuenta Corriente").balance(500000.0).build());
+        products.add(Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build());
+        products.add(Product.builder().id(2L).customerId("123").type(ProductType.CUENTA_CORRIENTE).name("Cuenta Corriente").balance(500000.0).build());
 
         given(productRepository.findAll()).willReturn(products);
 
@@ -90,8 +93,8 @@ public class ProductServiceTest {
     public void getAllProductsByCustomerId() {
         // Given
         List<Product> products = new ArrayList<>();
-        products.add(Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build());
-        products.add(Product.builder().id(2L).customerId("123").type("CUENTA_CORRIENTE").name("Cuenta Corriente").balance(500000.0).build());
+        products.add(Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build());
+        products.add(Product.builder().id(2L).customerId("123").type(ProductType.CUENTA_CORRIENTE).name("Cuenta Corriente").balance(500000.0).build());
 
         given(productRepository.findByCustomerId("123")).willReturn(products);
 
@@ -113,7 +116,7 @@ public class ProductServiceTest {
     @DisplayName("Get Product By Id")
     void getProductById() {
         // Given
-        Product product = Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productRepository.findById(1L)).willReturn(java.util.Optional.of(product));
 
@@ -134,7 +137,7 @@ public class ProductServiceTest {
     @DisplayName("Update Product")
     void updateProduct() {
         // Given
-        Product product = Product.builder().id(1L).customerId("123").type("CUENTA_AHORROS").name("Cuenta de Ahorros").balance(1000000.0).build();
+        Product product = Product.builder().id(1L).customerId("123").type(ProductType.CUENTA_AHORROS).name("Cuenta de Ahorros").balance(1000000.0).build();
 
         given(productRepository.save(any(Product.class))).willReturn(product);
 
