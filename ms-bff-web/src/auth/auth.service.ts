@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { RegisterRequestDto } from './dto/register-request.dto';
+import { DecodedTokenDto } from './dto/decoded-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -38,5 +39,13 @@ export class AuthService {
     );
 
     return res.data;
+  }
+
+  public async validateJwt(jwt: string): Promise<DecodedTokenDto> {
+    try {
+      return await this.jwt.verifyAsync(jwt);
+    } catch (error) {
+      throw new UnauthorizedException(error.message);
+    }
   }
 }
