@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-enum DocumentType {
+export enum DocumentType {
   RUC = 'RUC',
   DNI = 'DNI',
 }

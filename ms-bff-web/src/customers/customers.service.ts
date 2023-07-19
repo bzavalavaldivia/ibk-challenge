@@ -5,7 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { CustomerDto } from './dto/customer.dto';
 import { CustomerMapper } from './mappers/customer.mapper';
-import { Encrypter } from 'src/utils/encrypter.util';
+import { Encrypter } from '../utils/encrypter.util';
 
 @Injectable()
 export class CustomersService {

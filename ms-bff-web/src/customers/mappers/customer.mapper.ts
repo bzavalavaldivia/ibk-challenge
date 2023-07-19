@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Customer } from '../entities/customer.entity';
 import { CustomerDto } from '../dto/customer.dto';
-import { Encrypter } from 'src/utils/encrypter.util';
 import { ProductMapper } from './product.mapper';
+import { Encrypter } from '../../utils/encrypter.util';
 
 @Injectable()
 export class CustomerMapper {

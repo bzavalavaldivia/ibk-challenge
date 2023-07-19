@@ -11,7 +11,7 @@ import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { CustomerDto } from './dto/customer.dto';
 import { Request } from 'express';
-import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
+import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 
 @UseInterceptors(LoggingInterceptor)
 @Controller('api/v1/customers')
